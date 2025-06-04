@@ -9,6 +9,24 @@
 
 import Foundation
 
+struct ExerciseLoader {
+    static let hasLoadedKey = "hasLoadedExercises"
+
+    static func performInitialExerciseLoadIfNeeded() {
+        if !UserDefaults.standard.bool(forKey: hasLoadedKey) {
+            let seeds = loadExerciseSeeds()
+            let preloaded = convertToPreLoadedExercises(seeds: seeds)
+
+            // TODO: Store `preloaded` to SwiftData or Core Data if desired.
+
+            UserDefaults.standard.set(true, forKey: hasLoadedKey)
+            print("✅ Preloaded exercises on first launch.")
+        } else {
+            print("ℹ️ Exercises already preloaded.")
+        }
+    }
+}
+
 func loadExerciseSeeds() -> [ExerciseSeed] {
     guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json"),
               let data = try? Data(contentsOf: url) else {

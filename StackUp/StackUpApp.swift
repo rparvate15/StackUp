@@ -27,8 +27,7 @@ struct StackUpApp: App {
         WindowGroup {
             ContentView()
                 .onAppear {
-                    let seeds = loadExerciseSeeds()
-                    let preloaded = convertToPreLoadedExercises(seeds: seeds)
+                    ExerciseLoader.performInitialExerciseLoadIfNeeded()
                 }
         }
         .modelContainer(sharedModelContainer)
