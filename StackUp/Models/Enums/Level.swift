@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Level: String, CaseIterable, Encodable, Decodable {
+enum Level: String, CaseIterable, Encodable, Decodable, RawRepresentable, Hashable {
     case beginner
     case intermediate
     case expert

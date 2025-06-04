@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import SwiftData
 
-struct PreLoadedExercise: Identifiable, Codable {
-    var id: String
+class PreLoadedExercise: Identifiable, Codable {
+    @Attribute(.unique) var id: String
     var name: String
     var force: Force?
     var level: Level

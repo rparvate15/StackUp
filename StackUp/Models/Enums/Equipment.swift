@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Equipment: String, CaseIterable, Encodable, Decodable {
+enum Equipment: String, CaseIterable, Encodable, Decodable, RawRepresentable, Hashable {
     case MedicineBall
     case Dumbbell
     case BodyOnly

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Force: String, CaseIterable, Encodable, Decodable {
+enum Force: String, CaseIterable, Encodable, Decodable, RawRepresentable, Hashable {
     case push
     case pull
     case constant

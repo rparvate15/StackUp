@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Muscles: String, CaseIterable, Encodable, Decodable {
+enum Muscles: String, CaseIterable, Encodable, Decodable, RawRepresentable, Hashable {
     case abdominals
     case abductors
     case adductors

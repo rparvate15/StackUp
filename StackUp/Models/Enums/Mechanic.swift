@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Mechanic: String, CaseIterable, Encodable, Decodable {
+enum Mechanic: String, CaseIterable, Encodable, Decodable, RawRepresentable, Hashable {
     case isolation
     case compound
     case null

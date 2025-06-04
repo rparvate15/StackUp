@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ExerciseType: String, CaseIterable, Encodable, Decodable {
+enum ExerciseType: String, CaseIterable, Encodable, Decodable, RawRepresentable, Hashable {
     case strength
     case cardio
     case flexibility
