@@ -26,6 +26,11 @@ struct StackUpApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    let seeds = loadExerciseSeeds()
+                    print("✅ Loaded \(seeds.count) exercises")
+                    print(seeds.prefix(3))
+                }
         }
         .modelContainer(sharedModelContainer)
     }

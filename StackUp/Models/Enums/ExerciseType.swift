@@ -11,4 +11,5 @@ enum ExerciseType: String, CaseIterable, Encodable, Decodable {
     case strength
     case cardio
     case flexibility
+    case other
 }
