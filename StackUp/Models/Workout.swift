@@ -11,5 +11,5 @@ struct Workout: Identifiable, Codable {
     let id: UUID
     var date: Date
     var name: String
-    var exercises: [Exercise]
+    var exercises: [WorkoutExercise]
 }
