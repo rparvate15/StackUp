@@ -4,6 +4,8 @@
 //
 //  Created by Rudra Parvate on 6/4/25.
 //
+// Loads the exercises from exercises.json to ExerciseSeed
+// ExerciseSeed is all string values, needs to be converted to PreLoadedExercise
 
 import Foundation
 

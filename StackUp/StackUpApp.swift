@@ -28,8 +28,7 @@ struct StackUpApp: App {
             ContentView()
                 .onAppear {
                     let seeds = loadExerciseSeeds()
-                    print("✅ Loaded \(seeds.count) exercises")
-                    print(seeds.prefix(3))
+                    let preloaded = convertToPreLoadedExercises(seeds: seeds)
                 }
         }
         .modelContainer(sharedModelContainer)
