@@ -10,6 +10,16 @@ import SwiftData
 
 @main
 struct StackUpApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .onAppear {
+                    ExerciseLoader.performInitialExerciseLoadIfNeeded()
+                }
+        }
+        .modelContainer(sharedModelContainer)
+    }
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -22,14 +32,4 @@ struct StackUpApp: App {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .onAppear {
-                    ExerciseLoader.performInitialExerciseLoadIfNeeded()
-                }
-        }
-        .modelContainer(sharedModelContainer)
-    }
 }

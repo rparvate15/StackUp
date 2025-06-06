@@ -6,13 +6,15 @@
 //
 
 import Foundation
+import SwiftData
 
-class UserProfile: Codable {
-    let id: UUID
+@Model
+final class UserProfile {
     var name: String
     var DOB: Date // date of birth, to calculate age
     var gender: Gender = Gender.notSet
     var weight: Double
+    var weightUnits: WeightUnits = WeightUnits.pounds
     var height: Double?
     var goalOverall: WorkoutGoal
     // TODO: Create a secondary Goal thing that goes off goalOverall (loseAllCosts, DirtyBulk, etc (check freeform board)
@@ -21,12 +23,12 @@ class UserProfile: Codable {
     var lastUpdatedMetrics: Date?
     var lastUpdatedGoal: Date
     
-    init(id: UUID, name: String, DOB: Date, gender: Gender, weight: Double, height: Double? = nil, goalOverall: WorkoutGoal, notificationsEnabled: Bool, profileCreated: Date = Date(), lastUpdatedMetrics: Date? = nil, lastUpdatedGoal: Date) {
-        self.id = id
+    init(name: String, DOB: Date, gender: Gender, weight: Double, weightUnits: WeightUnits? = WeightUnits.pounds, height: Double? = nil, goalOverall: WorkoutGoal, notificationsEnabled: Bool, profileCreated: Date = Date(), lastUpdatedMetrics: Date? = nil, lastUpdatedGoal: Date) {
         self.name = name
         self.DOB = DOB
         self.gender = gender
         self.weight = weight
+        self.weightUnits = weightUnits ?? .pounds
         self.height = height
         self.goalOverall = goalOverall
         self.notificationsEnabled = notificationsEnabled
@@ -45,4 +47,9 @@ enum Gender: Int, Codable {
     case male
     case female
     case other
+}
+
+enum WeightUnits : String, Codable {
+    case pounds
+    case kilograms
 }
