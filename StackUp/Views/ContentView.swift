@@ -10,32 +10,35 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @State private var showingProfile = false
     @Query private var items: [Item]
 
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
+        NavigationStack {
+            VStack {
+                // Here is where to put the cards
+                Text("Hello World!")
+                Image(systemName: "globe")
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                    Button {
+                        showingProfile = true
+                    } label: {
+                        Image(systemName: "person.crop.circle")
+                            .imageScale(.large)
                     }
+                    .accessibilityLabel(Text("User Profile"))
                 }
             }
-        } detail: {
-            Text("Select an item")
+            .sheet(isPresented: $showingProfile) {
+                if let profile = try? modelContext.fetch(FetchDescriptor<UserProfile>()).first {
+                    UserProfileView(profile: profile)
+                } else {
+                    Text("No Profile Found")
+                    //TODO: Add an option to add a profile, with a button leading to the profile setup pipeline
+                }
+            }
         }
     }
 
