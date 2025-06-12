@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkoutSession: Identifiable, Codable {
+struct WorkoutSession: Identifiable {
     let id: UUID
     var date: Date
     var name: String

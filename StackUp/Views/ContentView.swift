@@ -21,8 +21,7 @@ struct ContentView: View {
                     // TODO: replace AnyView with Today View
                     
                     
-                    CardView(title: "Browse", subtitle: "Browse through all exercises", iconName: "list.clipboard", destination: AnyView(Text("Test")))
-                    // TODO: replace AnyView with Browse View
+                    CardView(title: "Browse", subtitle: "Browse through all exercises", iconName: "list.clipboard", destination: AnyView(BrowseExercisesView()))
                     
                     CardView(title: "Goals", subtitle: "View your goals and goal history", iconName: "chart.bar.fill", destination: AnyView(Text("test")))
                     // TODO: replace AnyView with Goals View
@@ -37,9 +36,7 @@ struct ContentView: View {
                     CardView(title: "Statistics", subtitle: "View your progress over time", iconName: "chart.line.uptrend.xyaxis", destination: AnyView(Text("Test")))
                     // TODO: replace AnyView with Stats view
 
-                    
-                    CardView(title: "Favorites", subtitle: "View your favorite exercises", iconName: "star.fill", destination: AnyView(Text("Test")))
-                    // TODO: replace AnyView with Favorites view
+                    // TODO: Implement Favorite exercise functionality?
                     // TODO: add Favorites functionality to WorkoutExercise
                 }
             }

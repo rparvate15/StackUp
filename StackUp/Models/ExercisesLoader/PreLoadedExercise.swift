@@ -8,7 +8,8 @@
 import Foundation
 import SwiftData
 
-class PreLoadedExercise: Identifiable, Codable {
+@Model
+class PreLoadedExercise: Identifiable {
     @Attribute(.unique) var id: String
     var name: String
     var force: Force?

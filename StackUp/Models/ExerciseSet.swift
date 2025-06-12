@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ExerciseSet: Identifiable, Codable {
+struct ExerciseSet: Identifiable {
     let id: UUID
     let exercise: PreLoadedExercise
     
