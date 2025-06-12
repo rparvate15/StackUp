@@ -16,10 +16,34 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                // Here is where to put the cards
-                Text("Hello World!")
-                Image(systemName: "globe")
+                ScrollView(.vertical, showsIndicators: false){
+                    CardView(title: "Today", subtitle: "Today's Workout", iconName: "calendar", destination: AnyView(Text("Test")))
+                    // TODO: replace AnyView with Today View
+                    
+                    
+                    CardView(title: "Browse", subtitle: "Browse through all exercises", iconName: "list.clipboard", destination: AnyView(Text("Test")))
+                    // TODO: replace AnyView with Browse View
+                    
+                    CardView(title: "Goals", subtitle: "View your goals and goal history", iconName: "chart.bar.fill", destination: AnyView(Text("test")))
+                    // TODO: replace AnyView with Goals View
+                    
+                    CardView(title: "History", subtitle: "View your past workouts", iconName: "calendar.badge.minus", destination: AnyView(Text("Test")))
+                    // TODO: replace AnyView with history view
+                    // TODO: replace icon to not clash with Today view
+                    
+                    CardView(title: "Create Workout", subtitle: "Create a new workout for today or the future", iconName: "plus.circle", destination: AnyView(Text("Test")))
+                    // TODO: replace AnyView with add view
+                    
+                    CardView(title: "Statistics", subtitle: "View your progress over time", iconName: "chart.line.uptrend.xyaxis", destination: AnyView(Text("Test")))
+                    // TODO: replace AnyView with Stats view
+
+                    
+                    CardView(title: "Favorites", subtitle: "View your favorite exercises", iconName: "star.fill", destination: AnyView(Text("Test")))
+                    // TODO: replace AnyView with Favorites view
+                    // TODO: add Favorites functionality to WorkoutExercise
+                }
             }
+            .navigationTitle("StackUp")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
