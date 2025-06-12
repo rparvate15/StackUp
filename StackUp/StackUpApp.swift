@@ -13,8 +13,10 @@ struct StackUpApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(sharedModelContainer)
                 .onAppear {
-                    ExerciseLoader.performInitialExerciseLoadIfNeeded()
+                    let context = sharedModelContainer.mainContext
+                    ExerciseLoader.performInitialExerciseLoadIfNeeded(using: context)
                 }
         }
         .modelContainer(sharedModelContainer)

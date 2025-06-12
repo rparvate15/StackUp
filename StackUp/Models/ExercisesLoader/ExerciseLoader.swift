@@ -8,37 +8,43 @@
 // ExerciseSeed is all string values, needs to be converted to PreLoadedExercise
 
 import Foundation
+import SwiftData
 
 struct ExerciseLoader {
-    static let hasLoadedKey = "hasLoadedExercises"
+    static func performInitialExerciseLoadIfNeeded(using context: ModelContext) {
+        let hasPreloaded = UserDefaults.standard.bool(forKey: "hasPreloadedExercises")
 
-    static func performInitialExerciseLoadIfNeeded() {
-        if !UserDefaults.standard.bool(forKey: hasLoadedKey) {
-            let seeds = loadExerciseSeeds()
-            let preloaded = convertToPreLoadedExercises(seeds: seeds)
-
-            // TODO: Store `preloaded` to SwiftData or Core Data if desired.
-
-            UserDefaults.standard.set(true, forKey: hasLoadedKey)
-            print("✅ Preloaded exercises on first launch.")
-        } else {
-            print("ℹ️ Exercises already preloaded.")
+        guard !hasPreloaded else {
+            print("✅ Exercises already preloaded.")
+            return
         }
-    }
-}
 
-func loadExerciseSeeds() -> [ExerciseSeed] {
-    guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json"),
+        print("Preloading Exercises on first launch.")
+
+        // Load and decode JSON
+        guard let url = Bundle.main.url(forResource: "exercises", withExtension: "json"),
               let data = try? Data(contentsOf: url) else {
-            print("❌ Could not load exercises.json")
-            return []
+            print("🛑 Could not load exercises.json")
+            return
         }
 
         do {
             let decoder = JSONDecoder()
-            return try decoder.decode([ExerciseSeed].self, from: data)
+            let decoded = try decoder.decode([ExerciseSeed].self, from: data)
+
+            let exercises = convertToPreLoadedExercises(seeds: decoded)
+
+            for ex in exercises {
+                context.insert(ex)
+            }
+
+            try context.save()
+
+            UserDefaults.standard.set(true, forKey: "hasPreloadedExercises")
+            print("✅ Saved \(exercises.count) exercises to SwiftData.")
+
         } catch {
-            print("❌ Decoding error: \(error)")
-            return []
+            print("🛑 Error decoding or saving exercises: \(error)")
         }
+    }
 }
