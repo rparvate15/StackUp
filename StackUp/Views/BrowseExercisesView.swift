@@ -22,6 +22,14 @@ struct BrowseExercisesView: View {
             } else {
                 List(exercises) { exercise in
                     VStack(alignment: .leading) {
+                        
+                        
+                        HStack {
+                        // TODO: Add filter functionality
+                        // TODO: Add sort functionality
+                            
+                        }
+                        
                         Text(exercise.name)
                             .font(.headline)
                         Text(exercise.primaryMuscles.map { $0.rawValue.capitalized }.joined(separator: ", "))
