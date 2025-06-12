@@ -9,8 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct BrowseExercisesView: View {
-//    @Query(sort: \PreLoadedExercise.name) var exercises: [PreLoadedExercise]
-    @Query var exercises: [PreLoadedExercise]
+    @Query(sort: \PreLoadedExercise.name) var exercises: [PreLoadedExercise]
 
     var body: some View {
         NavigationStack {
