@@ -36,5 +36,23 @@ struct BrowseExercisesView: View {
 }
 
 #Preview {
-    BrowseExercisesView()
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: PreLoadedExercise.self, configurations: config)
+        let context = container.mainContext
+        let example = PreLoadedExercise(
+            id: "preview",
+            name: "Push Up",
+            force: .push,
+            level: .beginner,
+            mechanic: .compound,
+            equipment: .BodyOnly,
+            primaryMuscles: [.chest],
+            secondaryMuscles: [.triceps],
+            instructions: ["Do a push-up"],
+            category: .strength
+        )
+        context.insert(example)
+
+        return BrowseExercisesView()
+            .modelContainer(container)
 }
