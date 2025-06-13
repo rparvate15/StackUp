@@ -20,11 +20,11 @@ struct ExerciseDetailsView: View {
                 .padding(.bottom)
                 .italic()
             Text("Primary Muscles Worked: \(exercise.primaryMuscles.map(\.rawValue).joined(separator: ", "))")
-//            if exercise.secondaryMuscles?.count ?? 0 > 0 {
-//                Text("Seconday Muscles Worked: \(exercise.secondaryMuscles.map(\.rawValue).joined(separator: ", "))")
-//                    .font(.callout)
-//                    .foregroundStyle(.secondary)
-//            }
+            if let secondary = exercise.secondaryMuscles, !secondary.isEmpty {
+                Text("Secondary Muscles Worked: \(secondary.map(\.rawValue).joined(separator: ", "))")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+            }
             Spacer()
             Text("Instructions:")
                 .font(.headline)
