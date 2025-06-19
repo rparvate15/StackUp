@@ -10,6 +10,29 @@ import SwiftData
 
 struct BrowseExercisesView: View {
     @Query(sort: \PreLoadedExercise.name) var exercises: [PreLoadedExercise]
+    
+    @State private var isReversed: Bool = false
+    var sortedExercises: [PreLoadedExercise] {
+        let sorted: [PreLoadedExercise]
+        
+        switch sortBy {
+        case .name:
+            sorted = exercises.sorted { $0.name < $1.name }
+        case .primaryMuscles:
+            sorted = exercises.sorted { $0.primaryMuscles.count > $1.primaryMuscles.count }
+        case .difficulty:
+            sorted = exercises.sorted { $0.level.rawValue < $1.level.rawValue }
+        case .category:
+            sorted = exercises.sorted { $0.category.rawValue < $1.category.rawValue }
+        case .force:
+            sorted = exercises.sorted { ($0.force?.rawValue ?? "") < ($1.force?.rawValue ?? "") }
+        case .equipment:
+            sorted = exercises.sorted { $0.equipment.rawValue < $1.equipment.rawValue }
+        }
+
+        return isReversed ? sorted.reversed() : sorted
+    }
+    @State var sortBy: SortType = .name
 
     var body: some View {
         NavigationStack {
@@ -20,16 +43,36 @@ struct BrowseExercisesView: View {
                         print("🛑 No Exercises found in SwiftData")
                     }
             } else {
-                List(exercises) { exercise in
+                
+//                HStack {
+//                // TODO: Add filter functionality
+//                    
+//                    
+//                // MARK: - Sort functionality
+//                    Picker("Sort By", selection: $sortBy) {
+//                        ForEach(SortType.allCases, id: \.self) { sortType in
+//                            if sortType == .primaryMuscles {
+//                                Text("Primary Muscles")
+//                            } else {
+//                                Text(sortType.rawValue.capitalized)
+//                            }
+//                        }
+//                    }
+//                    .padding(.horizontal)
+//                    Spacer()
+//                    Button {
+//                        isReversed.toggle()
+//                    } label: {
+//                        Image(systemName: isReversed ? "arrow.down" : "arrow.up")
+//                    }
+//                    .accessibilityLabel("Toggle Sort Direction")
+//                    .padding(.horizontal)
+//                    
+//                }
+               
+                
+                List(sortedExercises) { exercise in
                     VStack(alignment: .leading) {
-                        
-                        
-                        HStack {
-                        // TODO: Add filter functionality
-                        // TODO: Add sort functionality
-                            
-                        }
-                        
                         Text(exercise.name)
                             .font(.headline)
                         Text(exercise.primaryMuscles.map { $0.rawValue.capitalized }.joined(separator: ", "))
@@ -42,6 +85,10 @@ struct BrowseExercisesView: View {
         }
     }
 }
+
+enum SortType: String, CaseIterable {
+    case name, primaryMuscles, difficulty, category, force, equipment
+    }
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
