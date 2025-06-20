@@ -32,7 +32,7 @@ struct BrowseExercisesView: View {
         case .equipment:
             sorted = exercises.sorted { $0.equipment.rawValue < $1.equipment.rawValue }
         }
-
+        
         return isReversed ? sorted.reversed() : sorted
     }
     @State var sortBy: SortType = .name
@@ -45,7 +45,7 @@ struct BrowseExercisesView: View {
             $0.name.lowercased().contains(searchText.lowercased())
         }
     }
-
+    
     var body: some View {
         NavigationStack {
             if exercises.isEmpty {
@@ -56,8 +56,8 @@ struct BrowseExercisesView: View {
                     }
             } else {
                 
-//                // TODO: Add filter functionality
-               
+                //                // TODO: Add filter functionality
+                
                 
                 List(filteredExercises) { exercise in
                     VStack(alignment: .leading) {
@@ -92,46 +92,33 @@ struct BrowseExercisesView: View {
                 .navigationTitle("Browse Exercises")
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            showSortSheet = true
+                        Menu {
+                            // Sort options
+                            ForEach(SortType.allCases, id: \.self) { sortType in
+                                Button {
+                                    sortBy = sortType
+                                } label: {
+                                    Label(
+                                        sortType == .primaryMuscles ? "Primary Muscles" : sortType.rawValue.capitalized,
+                                        systemImage: sortBy == sortType ? "checkmark" : ""
+                                    )
+                                }
+                            }
+                            Divider()
+                            // Reverse toggle
+                            Button {
+                                isReversed.toggle()
+                            } label: {
+                                Label(
+                                    isReversed ? "Ascending" : "Descending",
+                                    systemImage: "arrow.up.arrow.down"
+                                )
+                            }
                         } label: {
                             Image(systemName: "arrow.up.arrow.down")
-                                .padding(8)
                         }
                         .accessibilityLabel("Sort Options")
                     }
-                    
-                    // TODO: Make this a circle
-                    // TODO: Add searchable
-                }
-                .sheet(isPresented: $showSortSheet) {
-                    VStack {
-                        Text("Sort Exercises by")
-                            .font(.headline)
-                            .padding(.top)
-                        
-                        Picker("Sort By", selection: $sortBy) {
-                            ForEach(SortType.allCases, id: \.self) { sortType in
-                                if sortType == .primaryMuscles {
-                                    Text("Primary Muscles")
-                                } else {
-                                    Text(sortType.rawValue.capitalized)
-                                }
-                            }
-                        }
-                        .pickerStyle(.menu)
-                        
-                        Toggle("Reverse Sort", isOn: $isReversed)
-                            .padding()
-                        
-                        Button("Done") {
-                            showSortSheet = false
-                        }
-                        .font(.headline)
-                        .padding(.bottom)
-                    }
-                    .padding()
-                    .presentationDetents([.medium])
                 }
             }
         }
