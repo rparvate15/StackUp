@@ -14,9 +14,11 @@ struct ExerciseDetailsView: View {
         VStack {
             Text(exercise.name)
                 .font(.title)
-                .padding(.top)
-            Text(exercise.category.rawValue)
+                .padding(.top, 50)
+            Text(exercise.category.rawValue.uppercased())
+                .foregroundStyle(.secondary)
                 .font(.callout)
+                .padding()
                 .padding(.bottom)
                 .italic()
             Text("Primary Muscles Worked: \(exercise.primaryMuscles.map(\.rawValue).joined(separator: ", "))")

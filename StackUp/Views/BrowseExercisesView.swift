@@ -60,31 +60,33 @@ struct BrowseExercisesView: View {
                 
                 
                 List(filteredExercises) { exercise in
-                    VStack(alignment: .leading) {
-                        Text(exercise.name)
-                            .font(.headline)
-                        
-                        switch sortBy {
-                        case .difficulty:
-                            Text(exercise.level.rawValue.capitalized)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        case .category:
-                            Text(exercise.category.rawValue.capitalized)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        case .force:
-                            Text(exercise.force?.rawValue.capitalized ?? "")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        case .equipment:
-                            Text(exercise.equipment.rawValue.capitalized)
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                        default:
-                            Text(exercise.primaryMuscles.map { $0.rawValue.capitalized }.joined(separator: ", "))
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
+                    NavigationLink(destination: ExerciseDetailsView(exercise: exercise)) {
+                        VStack(alignment: .leading) {
+                            Text(exercise.name)
+                                .font(.headline)
+                            
+                            switch sortBy {
+                            case .difficulty:
+                                Text(exercise.level.rawValue.capitalized)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            case .category:
+                                Text(exercise.category.rawValue.capitalized)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            case .force:
+                                Text(exercise.force?.rawValue.capitalized ?? "")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            case .equipment:
+                                Text(exercise.equipment.rawValue.capitalized)
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            default:
+                                Text(exercise.primaryMuscles.map { $0.rawValue.capitalized }.joined(separator: ", "))
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }
