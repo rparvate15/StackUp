@@ -8,9 +8,9 @@
 import Foundation
 
 struct WorkoutSession: Identifiable {
-    let id: UUID
+    let id: UUID = UUID()
     var date: Date
-    var name: String
+    var name: String?
     var exercises: [WorkoutExercise]
     var effort: Int // sum of the exercises' input levels / amount of exercises to get effort level out of 10 OR set by user
 }
