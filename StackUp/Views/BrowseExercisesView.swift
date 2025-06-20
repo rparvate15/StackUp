@@ -11,6 +11,10 @@ import SwiftData
 struct BrowseExercisesView: View {
     @Query(sort: \PreLoadedExercise.name) var exercises: [PreLoadedExercise]
     
+    @State private var searchText: String = ""
+    @State private var showSortSheet: Bool = false
+    
+    @State private var isReversed: Bool = false
     var sortedExercises: [PreLoadedExercise] {
         let sorted: [PreLoadedExercise]
         
@@ -29,9 +33,18 @@ struct BrowseExercisesView: View {
             sorted = exercises.sorted { $0.equipment.rawValue < $1.equipment.rawValue }
         }
 
-        return sorted
+        return isReversed ? sorted.reversed() : sorted
     }
     @State var sortBy: SortType = .name
+    
+    var filteredExercises: [PreLoadedExercise] {
+        guard !searchText.isEmpty else {
+            return sortedExercises
+        }
+        return sortedExercises.filter {
+            $0.name.lowercased().contains(searchText.lowercased())
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -46,7 +59,7 @@ struct BrowseExercisesView: View {
 //                // TODO: Add filter functionality
                
                 
-                List(sortedExercises) { exercise in
+                List(filteredExercises) { exercise in
                     VStack(alignment: .leading) {
                         Text(exercise.name)
                             .font(.headline)
@@ -61,7 +74,7 @@ struct BrowseExercisesView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         case .force:
-                            Text(exercise.force?.rawValue ?? "")
+                            Text(exercise.force?.rawValue.capitalized ?? "")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         case .equipment:
@@ -75,14 +88,29 @@ struct BrowseExercisesView: View {
                         }
                     }
                 }
+                .searchable(text: $searchText, placement: .toolbar, prompt: "Search")
                 .navigationTitle("Browse Exercises")
                 .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Picker(selection: $sortBy, label:
-                                Image(systemName: "arrow.up.arrow.down.circle")
-                            .font(.title2)
-                            .foregroundStyle(.blue)
-                        ) {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showSortSheet = true
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down")
+                                .padding(8)
+                        }
+                        .accessibilityLabel("Sort Options")
+                    }
+                    
+                    // TODO: Make this a circle
+                    // TODO: Add searchable
+                }
+                .sheet(isPresented: $showSortSheet) {
+                    VStack {
+                        Text("Sort Exercises by")
+                            .font(.headline)
+                            .padding(.top)
+                        
+                        Picker("Sort By", selection: $sortBy) {
                             ForEach(SortType.allCases, id: \.self) { sortType in
                                 if sortType == .primaryMuscles {
                                     Text("Primary Muscles")
@@ -91,9 +119,19 @@ struct BrowseExercisesView: View {
                                 }
                             }
                         }
+                        .pickerStyle(.menu)
+                        
+                        Toggle("Reverse Sort", isOn: $isReversed)
+                            .padding()
+                        
+                        Button("Done") {
+                            showSortSheet = false
+                        }
+                        .font(.headline)
+                        .padding(.bottom)
                     }
-                    // TODO: Make this a circle
-                    // TODO: Add searchable
+                    .padding()
+                    .presentationDetents([.medium])
                 }
             }
         }
