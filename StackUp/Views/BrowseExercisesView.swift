@@ -11,7 +11,6 @@ import SwiftData
 struct BrowseExercisesView: View {
     @Query(sort: \PreLoadedExercise.name) var exercises: [PreLoadedExercise]
     
-    @State private var isReversed: Bool = false
     var sortedExercises: [PreLoadedExercise] {
         let sorted: [PreLoadedExercise]
         
@@ -30,7 +29,7 @@ struct BrowseExercisesView: View {
             sorted = exercises.sorted { $0.equipment.rawValue < $1.equipment.rawValue }
         }
 
-        return isReversed ? sorted.reversed() : sorted
+        return sorted
     }
     @State var sortBy: SortType = .name
 
@@ -44,43 +43,58 @@ struct BrowseExercisesView: View {
                     }
             } else {
                 
-//                HStack {
 //                // TODO: Add filter functionality
-//                    
-//                    
-//                // MARK: - Sort functionality
-//                    Picker("Sort By", selection: $sortBy) {
-//                        ForEach(SortType.allCases, id: \.self) { sortType in
-//                            if sortType == .primaryMuscles {
-//                                Text("Primary Muscles")
-//                            } else {
-//                                Text(sortType.rawValue.capitalized)
-//                            }
-//                        }
-//                    }
-//                    .padding(.horizontal)
-//                    Spacer()
-//                    Button {
-//                        isReversed.toggle()
-//                    } label: {
-//                        Image(systemName: isReversed ? "arrow.down" : "arrow.up")
-//                    }
-//                    .accessibilityLabel("Toggle Sort Direction")
-//                    .padding(.horizontal)
-//                    
-//                }
                
                 
                 List(sortedExercises) { exercise in
                     VStack(alignment: .leading) {
                         Text(exercise.name)
                             .font(.headline)
-                        Text(exercise.primaryMuscles.map { $0.rawValue.capitalized }.joined(separator: ", "))
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                        
+                        switch sortBy {
+                        case .difficulty:
+                            Text(exercise.level.rawValue.capitalized)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        case .category:
+                            Text(exercise.category.rawValue.capitalized)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        case .force:
+                            Text(exercise.force?.rawValue ?? "")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        case .equipment:
+                            Text(exercise.equipment.rawValue.capitalized)
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        default:
+                            Text(exercise.primaryMuscles.map { $0.rawValue.capitalized }.joined(separator: ", "))
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
                     }
                 }
                 .navigationTitle("Browse Exercises")
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        Picker(selection: $sortBy, label:
+                                Image(systemName: "arrow.up.arrow.down.circle")
+                            .font(.title2)
+                            .foregroundStyle(.blue)
+                        ) {
+                            ForEach(SortType.allCases, id: \.self) { sortType in
+                                if sortType == .primaryMuscles {
+                                    Text("Primary Muscles")
+                                } else {
+                                    Text(sortType.rawValue.capitalized)
+                                }
+                            }
+                        }
+                    }
+                    // TODO: Make this a circle
+                    // TODO: Add searchable
+                }
             }
         }
     }
