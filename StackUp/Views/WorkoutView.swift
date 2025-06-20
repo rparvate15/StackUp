@@ -17,7 +17,7 @@ struct WorkoutView: View {
         // US English Locale (en_US)
         dateFormatter.locale = Locale(identifier: "en_US")
         dateFormatter.setLocalizedDateFormatFromTemplate("MMMMd")
-        var finalDate = (dateFormatter.string(from: date))
+        let finalDate = (dateFormatter.string(from: date))
         
         let calendar = Calendar.current
         let hour: Int = calendar.component(.hour, from: date)
