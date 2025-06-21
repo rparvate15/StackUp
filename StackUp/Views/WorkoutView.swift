@@ -37,7 +37,7 @@ struct WorkoutView: View {
         
         var finalString = ""
         finalString.append(contentsOf: finalDate)
-        finalString.append("'s \(tod) workout")
+        finalString.append("'s \(tod) Workout")
         
         
         return finalString
@@ -52,6 +52,13 @@ struct WorkoutView: View {
                 .font(.headline)
                 .padding()
             Spacer()
+            
+            LazyVStack (alignment: .leading) {
+                ForEach(workout.exercises) { exercise in
+                    UserExerciseCardView(exercise: exercise)
+                }
+            }
+            
             Spacer()
         }
     }
