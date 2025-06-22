@@ -11,7 +11,7 @@ struct UserExerciseCardView: View {
     var exercise: WorkoutExercise
     
     var body: some View {
-//        NavigationLink(destination: destination) { // TODO: Replace inside NavigationLink ()'s with destination to ExerciseDetails
+        NavigationLink(destination: UserExerciseDetailsView(exercise: exercise)) {
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(exercise.exercise.name)
@@ -52,13 +52,13 @@ struct UserExerciseCardView: View {
             .cornerRadius(20)
             .shadow(radius: 3)
             .padding(.horizontal)
-//        }
+        }
         .buttonStyle(PlainButtonStyle())
     }
 }
 
 #Preview {
-    let exercise = WorkoutExercise(exercise: PreLoadedExercise(id: "pushup", name: "Push Up", force: Force.push, level: Level.beginner, mechanic: Mechanic.compound, equipment: Equipment.BodyOnly, primaryMuscles: [Muscles.chest], secondaryMuscles: [Muscles.triceps, Muscles.shoulders], instructions: ["Test 1", "Test 2"], category: ExerciseType.strength), sets: [ExerciseSet(reps: 20)])
+    let exercise = WorkoutExercise(exercise: PreLoadedExercise(id: "pushup", name: "Push Up", force: Force.push, level: Level.beginner, mechanic: Mechanic.compound, equipment: Equipment.BodyOnly, primaryMuscles: [Muscles.chest], secondaryMuscles: [Muscles.triceps, Muscles.shoulders], instructions: ["Test 1", "Test 2"], category: ExerciseType.strength), sets: [ExerciseSet(reps: 20)], effort: 8)
     
     UserExerciseCardView(exercise: exercise)
 }
